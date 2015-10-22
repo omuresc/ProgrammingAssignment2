@@ -27,15 +27,27 @@
 
 makeCacheMatrix <- function(x = matrix()) 
 {
+    # stores the cached value and initializes to NULL
     inv <- NULL
+    
+    # create the matrix in the working environment
     set <- function(y) 
     {
-        x <<- y     # the <<- operator assigns a value to an object
+        # the <<- operator assigns a value to an object
+        x <<- y     
         inv <<- NULL
     }
+    
+    # get the value of the matrix
     get <- function() x
+    
+    # invert the matrix and store in cache
     setinverse <- function(inverse) inv <<- inverse
+    
+    # get the inverted matrix from cache
     getinverse <- function() inv
+    
+    # return the created functions to the working environment
     list(set=set, get=get, setinverse=setinverse, getinverse=getinverse)
 }
 
@@ -65,17 +77,31 @@ makeCacheMatrix <- function(x = matrix())
 #       [3,]  0.5  0.0 -0.5
 ##
 
+
 cacheSolve <- function(x, ...) 
 {
+    # attempt to get the inverse of the matrix stored in cache
     inv <- x$getinverse()
+    
+    # return inverted matrix from cache if it exists
     if(!is.null(inv)) 
     {
         message("Inverse matrix is already in memory...")
         return(inv)
     }
+    
+    # else create the matrix in working environment
     message("Inverse matrix is not in memory. Computing if exist...")
+    
+    # create a matrix in working environment from the cached data
     data <- x$get()
-    inv <- solve(data)
+    
+    # make sure matrix is square and invertible
+    inv <- solve(data, ...)
+    
+    # copy the computed inverted matrix from the working environment to the cache
     x$setinverse(inv)
-    inv
+    
+    # display inverse matrix in console
+    return(inv)
 }
