@@ -45,6 +45,10 @@ makeCacheMatrix <- function(x = matrix())
 # computation. If not, it computes the inverse, sets the value in the cache via
 # setinverse function. This function assumes that the matrix is always invertible.
 #
+# Arguments: - x: a "matrix" object in chache memory created with makeCacheMatrix()
+#
+# Output: the "matrix" object in cache memory actualized with its inverse 
+#
 # Usage:
 #   > m$set(rbind(c(1,1,1),c(1,-1,1),c(1,1,-1)))
 #   > cacheSolve(m)     #first iteration
